@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- load csv -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<style>
+
+    #map{position:absolute;top:0;bottom:0;left:0;right:0;}
+
+    #timePanel{
+    position:absolute;
+    top:15px;
+    right:15px;
+    background:white;
+    padding:12px 16px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.25);
+    font-family:Arial, Helvetica, sans-serif;
+    z-index:1000;
+}
+
+#timePanel h3{
+    margin:0 0 5px 0;
+    font-size:16px;
+}
+
+#timePanel p{
+    margin:3px 0;
+    font-size:14px;
+}
+
+</style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michigan Collision Risk Map</title>
+
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="timePanel">
+    <h3>Prediction Time</h3>
+    <p id="generatedTime">--</p>
+    <p id="nextUpdate">--</p>
+</div>
+
+<script>
+
+// ---------- MAP ----------
+var map = L.map('map').setView([44.3148, -85.6024], 6);
+
+L.tileLayer('https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=3VvJutzcnzqzLuFD42EP', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+
+/**
+ * Determines the risk color based on risk score,
+ */
+function getColor(risk) {
+    return risk >= 9 ? "#d73027" :   // red
+           risk >= 7 ? "#fc8d59" :   // orange
+           risk >= 4 ? "#fee08b" :   // yellow
+                        "#1a9850";   // green
+}
+/**
+ * helper to calculate the size of the circle based on the risk score..
+ */
+function getRadius(risk) {
+    return 400 + (risk * 120); // visual emphasis
+}
+// round to the nearest hour (like ML batch prediction)
+function getPredictionTimestamp(){
+    const now = new Date();
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    return now;
+}
+
+// update panel UI
+function updateTimePanel(){
+    const generated = getPredictionTimestamp();
+    const next = new Date(generated.getTime() + 60*60*1000);
+
+    document.getElementById("generatedTime").innerText =
+        "Generated: " + generated.toLocaleTimeString();
+
+    document.getElementById("nextUpdate").innerText =
+        "Next Update: " + next.toLocaleTimeString();
+}
+
+updateTimePanel();
+
+// -------- TIME SYSTEM --------
+
+// round to the nearest hour (like ML batch prediction)
+function getPredictionTimestamp(){
+    const now = new Date();
+    now.setMinutes(0);
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    return now;
+}
+
+// update panel UI
+function updateTimePanel(){
+    const generated = getPredictionTimestamp();
+    const next = new Date(generated.getTime() + 60*60*1000);
+
+    document.getElementById("generatedTime").innerText =
+        "Generated: " + generated.toLocaleTimeString();
+
+    document.getElementById("nextUpdate").innerText =
+        "Next Update: " + next.toLocaleTimeString();
+}
+
+updateTimePanel();
+
+var layerGroup = L.layerGroup().addTo(map);
+
+function loadRiskData(){
+
+    layerGroup.clearLayers(); // simulate new ML predictions
+
+    Papa.parse("data/michigan_collision_risk_preview.csv", {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+
+            results.data.forEach(row => {
+
+                if(!row.latitude) return;
+
+                const color = getColor(row.risk_score);
+                const radius = getRadius(row.risk_score);
+
+                const circle = L.circle([row.latitude, row.longitude], {
+                    color: color,
+                    fillColor: color,
+                    fillOpacity: 0.5,
+                    radius: radius,
+                    weight: 2
+                }).addTo(layerGroup);
+
+                circle.bindPopup(`
+                    <b>Collision Fatality Risk</b><br><br>
+                    <b>Road:</b> ${row.road_name}<br>
+                    <b>Nearest City:</b> ${row.nearest_city}<br>
+                    <b>County:</b> ${row.county}<br>
+                    <b>Prediction Hour:</b> ${getPredictionTimestamp().toLocaleTimeString()}<br>
+                    <b>Risk Score:</b> <span style="color:${color}; font-size:14px;"><b>${row.risk_score}/10</b></span>
+                `);
+
+            });
+        }
+    });
+
+    updateTimePanel();
+}
+
+// initial load
+loadRiskData();
+
+// simulate hourly ML retraining (10 sec for demo)
+setInterval(loadRiskData, 10000);
+
+</script>
+
+</body>
+</html>

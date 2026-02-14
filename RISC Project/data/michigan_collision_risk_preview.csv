@@ -1,0 +1,36 @@
+latitude,longitude,road_name,nearest_city,county,time_of_day,risk_score
+44.7631,-85.6206,M-37,Traverse City,Grand Traverse,Dusk,9
+44.2520,-84.2326,I-75,West Branch,Ogemaw,Night,10
+43.6380,-84.8723,M-20,Mount Pleasant,Isabella,Dawn,8
+46.5474,-87.3954,US-41,Marquette,Marquette,Night,9
+45.0275,-84.6740,M-32,Gaylord,Otsego,Dusk,10
+44.3140,-85.1953,M-115,Cadillac,Wexford,Dawn,8
+42.7171,-84.7761,I-96,Lansing,Eaton,Night,6
+43.0125,-83.6875,I-69,Flint,Genesee,Night,7
+45.3732,-84.9551,US-31,Petoskey,Emmet,Dusk,9
+44.9394,-85.9916,M-22,Glen Arbor,Leelanau,Dawn,10
+45.7780,-87.9037,US-2,Iron Mountain,Dickinson,Night,8
+46.4107,-86.6511,M-28,Seney,Schoolcraft,Night,10
+43.4088,-85.8002,M-20,Big Rapids,Mecosta,Dusk,7
+44.8977,-85.5085,M-72,Empire,Leelanau,Dusk,9
+43.6274,-84.2330,US-10,Midland,Midland,Night,6
+46.0998,-85.3727,M-123,Paradise,Chippewa,Night,10
+44.6634,-84.7148,M-72,Kalkaska,Kalkaska,Dawn,9
+45.1295,-85.3550,US-31,Charlevoix,Charlevoix,Dusk,8
+42.5812,-83.2471,I-75,Troy,Oakland,Night,4
+42.9634,-85.6681,I-196,Grand Rapids,Kent,Night,5
+44.2486,-86.3275,US-31,Manistee,Manistee,Dusk,9
+46.4920,-84.3470,I-75,Sault Ste Marie,Chippewa,Night,8
+45.7452,-84.7205,Mackinac Trail,St Ignace,Mackinac,Dawn,9
+44.7606,-84.5553,M-18,Roscommon,Roscommon,Night,8
+43.1739,-86.1916,US-31,Muskegon,Muskegon,Dusk,6
+46.2500,-85.9500,M-94,Manistique,Schoolcraft,Night,9
+44.4040,-84.1130,M-55,West Branch,Ogemaw,Dawn,8
+43.8820,-85.5150,M-37,Baldwin,Lake,Dusk,9
+45.2168,-83.5860,US-23,Alpena,Alpena,Night,8
+46.1202,-88.5697,US-2,Crystal Falls,Iron,Night,9
+44.9730,-84.6720,M-68,Indian River,Cheboygan,Dawn,9
+43.5401,-85.2573,M-66,Stanton,Montcalm,Dusk,7
+42.4395,-83.9863,I-94,Jackson,Jackson,Night,5
+43.2367,-86.2484,M-120,Muskegon Heights,Muskegon,Dawn,6
+44.8803,-85.4022,M-72,Traverse City,Grand Traverse,Dusk,9
